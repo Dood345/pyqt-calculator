@@ -36,3 +36,8 @@ profile = "black"
 [tool.mypy]
 python_version = "3.14"
 warn_return_any = true
+
+[tool.flake8]
+max-line-length = 80
+extend-ignore = ["E203", "W503"]
+exclude = [".git", "__pycache__", ".venv"]
