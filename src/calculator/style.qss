@@ -1,0 +1,71 @@
+QMainWindow {
+    background-color: #2F3136;
+}
+QLabel {
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
+    padding: 5px;
+}
+QLabel#brandingLabel {
+    font-size: 22px;
+    color: #F88523; /* Portal Orange Accent */
+}
+QLineEdit {
+    background-color: #E2E2E2;
+    color: #202020;
+    font-size: 32px;
+    font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
+    border: 2px solid #F88523; /* Portal Orange */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+QPushButton {
+    background-color: #4A4D54;
+    color: #FFFFFF;
+    font-size: 24px;
+    font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
+    border: 2px solid #00AEEF; /* Portal Blue */
+    border-radius: 5px;
+    padding: 15px;
+}
+QPushButton:pressed {
+    background-color: #F88523; /* Portal Orange */
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+}
+QPushButton#btnCalculate {
+    background-color: #F88523; /* Portal Orange Accent */
+    border: 2px solid #00AEEF;
+    font-weight: bold;
+}
+QPushButton#btnCalculate:pressed {
+    background-color: #00AEEF;
+    border: 2px solid #F88523;
+}
+QPushButton#btnClear {
+    background-color: #D32F2F; /* Emergency Red */
+    border: 2px solid #00AEEF;
+}
+QPushButton#btnClear:pressed {
+    background-color: #F88523;
+}
+QTableWidget {
+    background-color: #1A1C1E;
+    color: #00AEEF; /* Terminal Blue */
+    font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
+    font-size: 18px;
+    border: 2px solid #4A4D54;
+    border-radius: 5px;
+    padding: 10px;
+}
+QTableWidget::item:hover {
+    background-color: #4A4D54;
+    color: #FFFFFF;
+}
+QTableWidget::item:selected {
+    background-color: #F88523;
+    color: #FFFFFF;
+}
