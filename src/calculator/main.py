@@ -1,9 +1,10 @@
 import sys
 
-from controller import CalculatorController
-from model import CalculatorModel
 from PyQt6.QtWidgets import QApplication
-from view import CalculatorView
+
+from calculator.controller import CalculatorController
+from calculator.model import CalculatorModel
+from calculator.view import CalculatorView
 
 
 def main():
