@@ -141,22 +141,28 @@ class CalculatorModel:
         return -1
 
     def _apply_operator(self, operators, values):
-        op = operators.pop()
-        if op == "^":
-            right = values.pop()
-            left = values.pop()
-            values.append(math.pow(left, right))
+        if not operators:
             return
+        op = operators.pop()
+
         if op == "√":
+            if not values:
+                raise ValueError("Missing operands")
             right = values.pop()
             if right < 0:
                 raise ValueError("Imaginary numbers are a lie")
             values.append(math.sqrt(right))
             return
 
+        if len(values) < 2:
+            raise ValueError("Missing operands")
+
         right = values.pop()
         left = values.pop()
-        if op == "+":
+
+        if op == "^":
+            values.append(math.pow(left, right))
+        elif op == "+":
             values.append(left + right)
         elif op == "-":
             values.append(left - right)
@@ -220,12 +226,15 @@ class CalculatorModel:
                     if operators:
                         operators.pop()  # pop '('
                 elif token in ("+", "-", "*", "/", "<<", ">>", "&", "|", "^"):
-                    while (
-                        operators
-                        and operators[-1] != "("
-                        and self._precedence(operators[-1])
-                        >= self._precedence(token)
-                    ):
+                    while operators and operators[-1] != "(":
+                        top_prec = self._precedence(operators[-1])
+                        tok_prec = self._precedence(token)
+
+                        if token == "^" and top_prec <= tok_prec:
+                            break
+                        if token != "^" and top_prec < tok_prec:
+                            break
+
                         self._apply_operator(operators, values)
                     operators.append(token)
 
