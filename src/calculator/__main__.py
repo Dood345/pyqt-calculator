@@ -1,13 +1,13 @@
-import sys
+import sys  # pragma: no cover
 
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication  # pragma: no cover
 
-from calculator.controller import CalculatorController
-from calculator.model import CalculatorModel
-from calculator.view import CalculatorView
+from calculator.controller import CalculatorController  # pragma: no cover
+from calculator.model import CalculatorModel  # pragma: no cover
+from calculator.view import CalculatorView  # pragma: no cover
 
 
-def main() -> None:
+def main() -> None:  # pragma: no cover
     """The main entry point for the calculator application."""
     app = QApplication(sys.argv)
 
@@ -20,4 +20,5 @@ def main() -> None:
     sys.exit(app.exec())
 
 
-main()
+if __name__ == "__main__":  # pragma: no cover
+    main()
