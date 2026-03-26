@@ -4,18 +4,18 @@ QMainWindow {
 QLabel {
     color: #FFFFFF;
     font-weight: bold;
-    font-size: 18px;
+    font-size: {font_18}px;
     font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
     padding: 5px;
 }
 QLabel#brandingLabel {
-    font-size: 22px;
+    font-size: {font_22}px;
     color: #F88523; /* Portal Orange Accent */
 }
 QLineEdit {
     background-color: #E2E2E2;
     color: #202020;
-    font-size: 32px;
+    font-size: {font_32}px;
     font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
     border: 2px solid #F88523; /* Portal Orange */
     border-radius: 5px;
@@ -25,7 +25,7 @@ QLineEdit {
 QPushButton {
     background-color: #4A4D54;
     color: #FFFFFF;
-    font-size: 24px;
+    font-size: {font_24}px;
     font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
     border: 2px solid #00AEEF; /* Portal Blue */
     border-radius: 5px;
@@ -56,7 +56,7 @@ QTableWidget {
     background-color: #1A1C1E;
     color: #00AEEF; /* Terminal Blue */
     font-family: 'Monocraft Nerd Font', 'Consolas', 'Courier New', monospace;
-    font-size: 18px;
+    font-size: {font_18}px;
     border: 2px solid #4A4D54;
     border-radius: 5px;
     padding: 10px;

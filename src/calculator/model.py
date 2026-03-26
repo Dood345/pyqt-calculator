@@ -7,6 +7,7 @@ class CalculatorModel:
         self.current_expression = ""
         self.history = []
         self.memory_val = 0.0
+        self.radix_mode = "DEC"
 
     def apply_sqrt(self) -> str:
         """
@@ -50,6 +51,43 @@ class CalculatorModel:
         self.current_expression = self.current_expression + value
         return self.current_expression
 
+    def change_radix(self, new_mode: str) -> str:
+        """Changes the radix mode and reformats the current value."""
+        self.radix_mode = new_mode
+        if not self.current_expression:
+            return ""
+
+        try:
+            tokens = re.findall(
+                r"^0x[0-9a-fA-F]+$|^0b[01]+$|^0o[0-7]+$|^\d+\.\d+$|^\d+$",
+                self.current_expression.strip(),
+            )
+            if tokens:
+                val = tokens[0]
+                if (
+                    val.startswith("0x")
+                    or val.startswith("0b")
+                    or val.startswith("0o")
+                ):
+                    num = float(int(val, 0))
+                else:
+                    num = float(val)
+
+                if new_mode == "HEX":
+                    self.current_expression = hex(int(num))
+                elif new_mode == "BIN":
+                    self.current_expression = bin(int(num))
+                elif new_mode == "OCT":
+                    self.current_expression = oct(int(num))
+                else:
+                    self.current_expression = (
+                        str(int(num)) if num.is_integer() else str(num)
+                    )
+        except Exception:
+            pass
+
+        return self.current_expression
+
     def clear(self) -> str:
         """Clears the current expression."""
         self.current_expression = ""
@@ -79,12 +117,20 @@ class CalculatorModel:
 
     def _precedence(self, op):
         if op == "√":
-            return 3
-        if op in ("+", "-"):
-            return 1
+            return 6
         if op in ("*", "/"):
+            return 5
+        if op in ("+", "-"):
+            return 4
+        if op in ("<<", ">>"):
+            return 3
+        if op == "&":
             return 2
-        return 0
+        if op == "^":
+            return 1
+        if op == "|":
+            return 0
+        return -1
 
     def _apply_operator(self, operators, values):
         op = operators.pop()
@@ -107,6 +153,16 @@ class CalculatorModel:
             if right == 0:
                 raise ZeroDivisionError("Cake is a lie")
             values.append(left / right)
+        elif op == "&":
+            values.append(int(left) & int(right))
+        elif op == "|":
+            values.append(int(left) | int(right))
+        elif op == "^":
+            values.append(int(left) ^ int(right))
+        elif op == "<<":
+            values.append(int(left) << int(right))
+        elif op == ">>":
+            values.append(int(left) >> int(right))
 
     def calculate(self) -> str:
         """Evaluates the mathematical expression using PEMDAS Stack Parsing"""
@@ -123,12 +179,22 @@ class CalculatorModel:
 
         try:
             # Tokenize floats, ints, operators
-            tokens = re.findall(r"√|\d+\.\d+|\d+|[+\-*/()]", expr)
+            tokens = re.findall(
+                r"0x[0-9a-fA-F]+|0b[01]+|0o[0-7]+|[a-fA-F]|"
+                r"\d+\.\d+|\d+|<<|>>|[+\-*/()&|^√]",
+                expr,
+            )
             values = []
             operators = []
 
             for token in tokens:
-                if token.replace(".", "", 1).isdigit():
+                if (
+                    token.startswith("0x")
+                    or token.startswith("0b")
+                    or token.startswith("0o")
+                ):
+                    values.append(float(int(token, 0)))
+                elif token.replace(".", "", 1).isdigit():
                     values.append(float(token))
                 elif token in ("(", "√"):
                     operators.append(token)
@@ -137,7 +203,7 @@ class CalculatorModel:
                         self._apply_operator(operators, values)
                     if operators:
                         operators.pop()  # pop '('
-                elif token in "+-*/":
+                elif token in ("+", "-", "*", "/", "<<", ">>", "&", "|", "^"):
                     while (
                         operators
                         and operators[-1] != "("
@@ -152,7 +218,15 @@ class CalculatorModel:
 
             if len(values) == 1:
                 res = values[0]
-                result_str = str(int(res)) if res.is_integer() else str(res)
+                if self.radix_mode == "HEX":
+                    result_str = hex(int(res))
+                elif self.radix_mode == "BIN":
+                    result_str = bin(int(res))
+                elif self.radix_mode == "OCT":
+                    result_str = oct(int(res))
+                else:
+                    result_str = str(int(res)) if res.is_integer() else str(res)
+
                 self.history.append((original_expr, result_str))
                 self.current_expression = result_str
                 return result_str
