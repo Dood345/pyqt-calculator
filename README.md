@@ -26,3 +26,9 @@ pip install -e ".[dev]"
 ```bash
 python -m calculator
 ```
+
+## Testing
+
+```bash
+pytest
+```
