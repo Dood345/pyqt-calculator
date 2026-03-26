@@ -7,7 +7,7 @@ from calculator.model import CalculatorModel
 from calculator.view import CalculatorView
 
 
-def main() -> None:
+def main() -> None:  # pragma: no cover
     """The main entry point for the calculator application."""
     app = QApplication(sys.argv)
 
@@ -20,4 +20,5 @@ def main() -> None:
     sys.exit(app.exec())
 
 
-main()
+if __name__ == "__main__":  # pragma: no cover
+    main()
