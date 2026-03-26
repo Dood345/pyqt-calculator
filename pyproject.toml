@@ -17,10 +17,12 @@ dependencies = [
 dev = [
     "black>=26.3",
     "isort>=8.0",
-    "flake8>=7.3",
+    "Flake8-pyproject>=1.2.4",
     "mypy>=1.19",
     "pre-commit>=4.5",
     "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "pytest-qt>=4.4",
 ]
 
 [project.scripts]
