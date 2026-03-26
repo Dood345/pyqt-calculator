@@ -33,5 +33,6 @@ build/
 # mypy cache
 .mypy_cache/
 
-# pytest cache
+# pytest
 .pytest_cache/
+.coverage

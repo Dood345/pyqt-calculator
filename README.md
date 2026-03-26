@@ -26,3 +26,10 @@ pip install -e ".[dev]"
 ```bash
 python -m calculator
 ```
+
+## Testing
+
+To run the test suite with code coverage analysis:
+```bash
+pytest --cov
+```

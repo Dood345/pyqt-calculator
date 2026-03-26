@@ -225,7 +225,18 @@ class CalculatorModel:
                         self._apply_operator(operators, values)
                     if operators:
                         operators.pop()  # pop '('
-                elif token in ("+", "-", "*", "/", "<<", ">>", "&", "|", "^"):
+                elif token in (
+                    "+",
+                    "-",
+                    "*",
+                    "/",
+                    "<<",
+                    ">>",
+                    "&",
+                    "|",
+                    "^",
+                    "⊕",
+                ):
                     while operators and operators[-1] != "(":
                         top_prec = self._precedence(operators[-1])
                         tok_prec = self._precedence(token)
