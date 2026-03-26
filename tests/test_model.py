@@ -197,3 +197,24 @@ def test_calculate_mixed_radix(model):
     model.radix_mode = "HEX"
     model.current_expression = "10+2"
     assert model.calculate() == "0xc"
+
+
+def test_memory_radix(model):
+    model.current_expression = "10"
+    model.memory_add()
+    assert model.memory_val == 10.0
+
+    model.current_expression = ""
+    model.change_radix("HEX")
+    model.memory_recall()
+    assert model.current_expression == "0xa"
+
+    model.memory_clear()
+    model.current_expression = "0x10"
+    model.memory_add()
+    assert model.memory_val == 16.0
+
+    model.change_radix("BIN")
+    model.current_expression = ""
+    model.memory_recall()
+    assert model.current_expression == "0b10000"

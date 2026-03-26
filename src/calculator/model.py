@@ -102,7 +102,14 @@ class CalculatorModel:
     def memory_add(self):
         """Adds current evaluated result to memory."""
         try:
-            val = float(self.calculate()) if self.current_expression else 0.0
+            if not self.current_expression:
+                val = 0.0
+            else:
+                res_str = self.calculate()
+                if res_str.replace("-", "").startswith(("0x", "0b", "0o")):
+                    val = float(int(res_str, 0))
+                else:
+                    val = float(res_str)
             self.memory_val += val
         except Exception:
             pass
@@ -113,11 +120,16 @@ class CalculatorModel:
 
     def memory_recall(self) -> str:
         """Retrieves memory value and appends to the current expression."""
-        val_str = (
-            str(int(self.memory_val))
-            if self.memory_val.is_integer()
-            else str(self.memory_val)
-        )
+        res = self.memory_val
+        if self.radix_mode == "HEX":
+            val_str = hex(int(res))
+        elif self.radix_mode == "BIN":
+            val_str = bin(int(res))
+        elif self.radix_mode == "OCT":
+            val_str = oct(int(res))
+        else:
+            val_str = str(int(res)) if res.is_integer() else str(res)
+
         self.current_expression += val_str
         return self.current_expression
 
