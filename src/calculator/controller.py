@@ -6,10 +6,13 @@ class CalculatorController:
 
     def _connect_signals(self):
         """Connects UI buttons to controller methods."""
-        # When btn_seven is clicked, run self._on_button_clicked
-        self.view.btn_seven.clicked.connect(
-            lambda: self._on_button_clicked("7")
-        )
+        for value, button in self.view.buttons.items():
+            button.clicked.connect(
+                # had to add checked=False because PyQt buttons
+                # emit a boolean when clicked, and we don't want
+                # that getting mixed up with our values
+                lambda checked=False, v=value: self._on_button_clicked(v)
+            )
 
     def _on_button_clicked(self, value: str):
         """Passes the value to the model and updates the view."""
