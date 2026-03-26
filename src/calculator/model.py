@@ -93,6 +93,12 @@ class CalculatorModel:
         self.current_expression = ""
         return self.current_expression
 
+    def remove_last_char(self) -> str:
+        """Removes the last character from the current expression."""
+        if self.current_expression:
+            self.current_expression = self.current_expression[:-1]
+        return self.current_expression
+
     def memory_add(self):
         """Adds current evaluated result to memory."""
         try:

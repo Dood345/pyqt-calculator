@@ -46,6 +46,7 @@ class CalculatorController:
         self.view.btn_toggle_drawer.clicked.connect(
             self._on_toggle_drawer_clicked
         )
+        self.view.keyPressed.connect(self._handle_key_press)
 
     def _on_toggle_drawer_clicked(self):
         """Toggles the visibility of the Engineer Drawer."""
@@ -101,3 +102,19 @@ class CalculatorController:
         """Clears the expression."""
         cleared = self.model.clear()
         self.view.update_display(cleared)
+
+    def _on_backspace_clicked(self):
+        """Removes the last character from the expression."""
+        new_expr = self.model.remove_last_char()
+        self.view.update_display(new_expr)
+
+    def _handle_key_press(self, key_text: str):
+        """Dispatches key presses to their respective handlers."""
+        if key_text == "=":
+            self._on_equal_clicked()
+        elif key_text == "BACKSPACE":
+            self._on_backspace_clicked()
+        elif key_text == "CLEAR":
+            self._on_clear_clicked()
+        else:
+            self._on_button_clicked(key_text)

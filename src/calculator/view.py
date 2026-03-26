@@ -1,4 +1,4 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QGridLayout,
@@ -17,6 +17,8 @@ from PyQt6.QtWidgets import (
 
 
 class CalculatorView(QMainWindow):
+    keyPressed = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Aperture Science Quantum Number Cruncher")
@@ -234,3 +236,20 @@ class CalculatorView(QMainWindow):
         """Mandatory visual re-calibration triggered by Lab Boy interference."""
         super().resizeEvent(event)
         self._apply_scaled_style()
+
+    def keyPressEvent(self, event):
+        """Captures keyboard input for quantum processing."""
+        key = event.key()
+        text = event.text()
+
+        if key in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Equal):
+            self.keyPressed.emit("=")
+        elif key == Qt.Key.Key_Backspace:
+            self.keyPressed.emit("BACKSPACE")
+        elif key in (Qt.Key.Key_Escape, Qt.Key.Key_Delete):
+            self.keyPressed.emit("CLEAR")
+        elif text:
+            # Only emit if it's a character we care about (0-9, operators, etc.)
+            if text in "0123456789.+-*/^()abcdefABCDEF&|":
+                self.keyPressed.emit(text.upper())
+        super().keyPressEvent(event)
