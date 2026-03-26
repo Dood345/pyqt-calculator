@@ -116,6 +116,8 @@ class CalculatorModel:
         return self.current_expression
 
     def _precedence(self, op):
+        if op == "^":
+            return 7
         if op == "√":
             return 6
         if op in ("*", "/"):
@@ -126,7 +128,7 @@ class CalculatorModel:
             return 3
         if op == "&":
             return 2
-        if op == "^":
+        if op == "⊕":
             return 1
         if op == "|":
             return 0
@@ -134,6 +136,11 @@ class CalculatorModel:
 
     def _apply_operator(self, operators, values):
         op = operators.pop()
+        if op == "^":
+            right = values.pop()
+            left = values.pop()
+            values.append(math.pow(left, right))
+            return
         if op == "√":
             right = values.pop()
             if right < 0:
@@ -157,7 +164,7 @@ class CalculatorModel:
             values.append(int(left) & int(right))
         elif op == "|":
             values.append(int(left) | int(right))
-        elif op == "^":
+        elif op == "⊕":
             values.append(int(left) ^ int(right))
         elif op == "<<":
             values.append(int(left) << int(right))
@@ -172,6 +179,9 @@ class CalculatorModel:
         original_expr = self.current_expression
         expr = self.current_expression.replace(" ", "")
 
+        # Assume ^2 if ^ is followed by another operator or end of expression
+        expr = re.sub(r"\^([+\-*/&|⊕)]|<<|>>|$)", r"^2\1", expr)
+
         # Handle simple unary minus safely
         if expr.startswith("-"):
             expr = "0" + expr
@@ -181,7 +191,7 @@ class CalculatorModel:
             # Tokenize floats, ints, operators
             tokens = re.findall(
                 r"0x[0-9a-fA-F]+|0b[01]+|0o[0-7]+|[a-fA-F]|"
-                r"\d+\.\d+|\d+|<<|>>|[+\-*/()&|^√]",
+                r"\d+\.\d+|\d+|\^|⊕|<<|>>|[+\-*/()&|√]",
                 expr,
             )
             values = []

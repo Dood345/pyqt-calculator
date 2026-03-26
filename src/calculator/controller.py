@@ -19,12 +19,16 @@ class CalculatorController:
                 btn.clicked.connect(self._on_m_plus_clicked)
             elif key == "√":
                 btn.clicked.connect(self._on_sqrt_clicked)
+            elif key == "^":
+                btn.clicked.connect(
+                    lambda checked: self._on_button_clicked("^")
+                )
             elif key == "C_hex":
                 btn.clicked.connect(
                     lambda checked: self._on_button_clicked("C")
                 )
             elif key in ("AND", "OR", "XOR"):
-                op_map = {"AND": "&", "OR": "|", "XOR": "^"}
+                op_map = {"AND": "&", "OR": "|", "XOR": "⊕"}
                 btn.clicked.connect(
                     lambda checked, k=key: self._on_button_clicked(op_map[k])
                 )
