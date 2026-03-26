@@ -14,7 +14,7 @@ class CalculatorModel:
 
     def append_value(self, value: str) -> str:
         """Appends a value and returns the new expression."""
-        self.current_expression = self.current_expression + value
+        self.current_expression += value
         return self.current_expression
 
     def clear(self) -> str:
@@ -51,8 +51,15 @@ class CalculatorModel:
             )
             self.history = self.current_expression + " ="
             self.current_expression = result
-        except SyntaxError, ArithmeticError, TypeError:
-            self.history = "Error"
+
+        except SyntaxError:
+            self.history = "Syntax Error"
+            self.current_expression = ""
+        except ArithmeticError:
+            self.history = "Math Error"
+            self.current_expression = ""
+        except TypeError:
+            self.history = "Type Error"
             self.current_expression = ""
 
         return self.history, self.current_expression

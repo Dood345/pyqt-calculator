@@ -1,10 +1,20 @@
+from calculator.model import CalculatorModel
+from calculator.view import CalculatorView
+
+
 class CalculatorController:
-    def __init__(self, view, model):
+    """The controller for the calculator application.
+
+    This class handles the logic of the calculator, including
+    appending values, clearing the expression, and evaluating it.
+    """
+
+    def __init__(self, view: CalculatorView, model: CalculatorModel) -> None:
         self.view = view
         self.model = model
         self._connect_signals()
 
-    def _connect_signals(self):
+    def _connect_signals(self) -> None:
         """Connects UI buttons to controller methods."""
         for value, button in self.view.buttons.items():
             button.clicked.connect(
@@ -14,8 +24,9 @@ class CalculatorController:
                 lambda checked, v=value: self._on_button_clicked(v)
             )
 
-    def _on_button_clicked(self, value: str):
+    def _on_button_clicked(self, value: str) -> None:
         """Passes the value to the model and updates the view."""
+        # too simple to need handlers
         if value == "C":
             new_expression = self.model.clear()
             self.view.update_display(new_expression)
