@@ -30,13 +30,13 @@ class CalculatorController:
         if value == "C":
             new_expression = self.model.clear()
             self.view.update_display(new_expression)
-            self.view.update_history("")
+            self.view.clear_history()
         elif value == "⌫":
             new_expression = self.model.backspace()
             self.view.update_display(new_expression)
         elif value == "=":
             history, new_expression = self.model.evaluate()
-            self.view.update_history(history)
+            self.view.add_history(history)
             self.view.update_display(new_expression)
         else:
             new_expression = self.model.append_value(value)
