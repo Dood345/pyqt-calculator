@@ -4,7 +4,7 @@ from calculator.model import CalculatorModel
 def test_model_initial_state():
     model = CalculatorModel()
     assert model.current_expression == ""
-    assert model.history == ""
+    assert model.history == []
 
 
 def test_append_value():
@@ -37,7 +37,7 @@ def test_evaluate_success():
     model = CalculatorModel()
     model.append_value("3+4")
     history, expr = model.evaluate()
-    assert history == "3+4 ="
+    assert history == "3+4 = 7"
     assert expr == "7"
 
 

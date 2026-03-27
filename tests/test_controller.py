@@ -39,7 +39,7 @@ def test_button_clear(qtbot):
     qtbot.mouseClick(view.buttons["C"], Qt.MouseButton.LeftButton)
     assert model.current_expression == ""
     assert view.display.text() == ""
-    assert view.history_display.text() == ""
+    assert view.history_list.count() == 0
 
 
 def test_button_backspace(qtbot):
@@ -65,4 +65,21 @@ def test_button_evaluate(qtbot):
     model.current_expression = "2+2"
     qtbot.mouseClick(view.buttons["="], Qt.MouseButton.LeftButton)
     assert view.display.text() == "4"
-    assert view.history_display.text() == "2+2 ="
+    assert view.history_list.item(0).text() == "2+2 = 4"
+
+
+def test_history_item_clicked(qtbot):
+    view = CalculatorView()
+    model = CalculatorModel()
+    # disabling unused variable error for flake8
+    controller = CalculatorController(view, model)  # noqa: F841
+    qtbot.addWidget(view)
+
+    model.current_expression = "3+5"
+    qtbot.mouseClick(view.buttons["="], Qt.MouseButton.LeftButton)
+
+    item = view.history_list.item(0)
+    view.history_list.itemClicked.emit(item)
+
+    assert model.current_expression == "83+5"
+    assert view.display.text() == "83+5"

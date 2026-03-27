@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QGridLayout,
     QLineEdit,
+    QListWidget,
     QMainWindow,
     QPushButton,
     QVBoxLayout,
@@ -28,15 +29,14 @@ class CalculatorView(QMainWindow):
         main_layout = QVBoxLayout(central_widget)
 
         # History screen
-        self.history_display = QLineEdit()
-        self.history_display.setReadOnly(True)
-        self.history_display.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.history_display.setStyleSheet("""
+        self.history_list = QListWidget()
+        self.history_list.setMaximumHeight(200)
+        self.history_list.setStyleSheet("""
             border: none;
             color: gray;
             font-size: 12px;
         """)
-        main_layout.addWidget(self.history_display)
+        main_layout.addWidget(self.history_list)
 
         # Main display screen
         self.display = QLineEdit()
@@ -68,6 +68,13 @@ class CalculatorView(QMainWindow):
         for btn_text, pos in button_layout_map.items():
             button = QPushButton(btn_text)
             button.setFixedSize(45, 45)
+            # color coding for important buttons
+            if btn_text == "C":
+                button.setStyleSheet("background-color: red;")
+            elif btn_text == "⌫":
+                button.setStyleSheet("background-color: orange;")
+            elif btn_text == "=":
+                button.setStyleSheet("background-color: green;")
             self.buttons[btn_text] = button
             self.buttons_layout.addWidget(button, pos[0], pos[1])
 
@@ -79,10 +86,15 @@ class CalculatorView(QMainWindow):
         """
         self.display.setText(text)
 
-    def update_history(self, text: str) -> None:
-        """Updates the history text on the calculator screen.
+    def add_history(self, text: str) -> None:
+        """Adds a history item to the list and scrolls to bottom.
 
         Args:
             text: The string to display as history.
         """
-        self.history_display.setText(text)
+        self.history_list.addItem(text)
+        self.history_list.scrollToBottom()
+
+    def clear_history(self) -> None:
+        """Clears the history list."""
+        self.history_list.clear()

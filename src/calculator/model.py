@@ -10,7 +10,7 @@ class CalculatorModel:
 
     def __init__(self) -> None:
         self.current_expression = ""
-        self.history = ""
+        self.history: list[str] = []
 
     def append_value(self, value: str) -> str:
         """Appends a value and returns the new expression."""
@@ -40,26 +40,31 @@ class CalculatorModel:
             r"|[\+\-\*\/\(\)\.])*"
         )
         if not re.fullmatch(pattern, self.current_expression):
-            self.history = "Security Error"
+            history_item = "Security Error"
+            self.history.append(history_item)
             self.current_expression = ""
-            return self.history, self.current_expression
+            return history_item, self.current_expression
 
         try:
             # string is safe to eval, no code bombs
             result = str(
                 eval(self.current_expression, {"__builtins__": {}}, {})
             )
-            self.history = self.current_expression + " ="
+            history_item = f"{self.current_expression} = {result}"
+            self.history.append(history_item)
             self.current_expression = result
 
         except SyntaxError:
-            self.history = "Syntax Error"
+            history_item = "Syntax Error"
+            self.history.append(history_item)
             self.current_expression = ""
         except ArithmeticError:
-            self.history = "Math Error"
+            history_item = "Math Error"
+            self.history.append(history_item)
             self.current_expression = ""
         except TypeError:
-            self.history = "Type Error"
+            history_item = "Type Error"
+            self.history.append(history_item)
             self.current_expression = ""
 
-        return self.history, self.current_expression
+        return history_item, self.current_expression
