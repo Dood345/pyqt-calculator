@@ -39,7 +39,7 @@ def test_button_clear(qtbot):
     qtbot.mouseClick(view.buttons["C"], Qt.MouseButton.LeftButton)
     assert model.current_expression == ""
     assert view.display.text() == ""
-    assert view.history_display.text() == ""
+    assert view.history_list.count() == 0
 
 
 def test_button_backspace(qtbot):
@@ -65,4 +65,4 @@ def test_button_evaluate(qtbot):
     model.current_expression = "2+2"
     qtbot.mouseClick(view.buttons["="], Qt.MouseButton.LeftButton)
     assert view.display.text() == "4"
-    assert view.history_display.text() == "2+2 ="
+    assert view.history_list.item(0).text() == "2+2 = 4"
