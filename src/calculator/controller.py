@@ -23,6 +23,15 @@ class CalculatorController:
                 # that getting mixed up with our values
                 lambda checked, v=value: self._on_button_clicked(v)
             )
+        self.view.history_list.itemClicked.connect(self._on_history_clicked)
+
+    def _on_history_clicked(self, item) -> None:
+        """Handles clicks on history items by appending their equations."""
+        text = item.text()
+        if "=" in text:
+            equation = text.split("=")[0].strip()
+            new_expression = self.model.append_value(equation)
+            self.view.update_display(new_expression)
 
     def _on_button_clicked(self, value: str) -> None:
         """Passes the value to the model and updates the view."""
