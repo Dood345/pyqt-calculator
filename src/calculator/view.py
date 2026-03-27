@@ -68,6 +68,13 @@ class CalculatorView(QMainWindow):
         for btn_text, pos in button_layout_map.items():
             button = QPushButton(btn_text)
             button.setFixedSize(45, 45)
+            # color coding for important buttons
+            if btn_text == "C":
+                button.setStyleSheet("background-color: red;")
+            elif btn_text == "⌫":
+                button.setStyleSheet("background-color: orange;")
+            elif btn_text == "=":
+                button.setStyleSheet("background-color: green;")
             self.buttons[btn_text] = button
             self.buttons_layout.addWidget(button, pos[0], pos[1])
 
