@@ -10,5 +10,5 @@ Versioning follows \[Semantic Versioning](https://semver.org/).
 
 
 
-\## \[Unreleased forevermore]
+\## \[Unreleased]
 

@@ -18,9 +18,7 @@ class CalculatorView(QMainWindow):
     """
 
     def __init__(self) -> None:
-        """
-        Initializes the calculator view.
-        """
+        """Initializes the calculator view."""
         super().__init__()
         self.setWindowTitle("PyQt Calculator Prototype")
         self.setFixedSize(300, 400)

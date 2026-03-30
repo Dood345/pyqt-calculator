@@ -8,10 +8,7 @@ from calculator.view import CalculatorView  # pragma: no cover
 
 
 def main() -> None:  # pragma: no cover
-    """
-    The main entry point for the calculator application.
-    """
-
+    """The main entry point for the calculator application."""
     app = QApplication(sys.argv)
 
     view = CalculatorView()
@@ -23,11 +20,5 @@ def main() -> None:  # pragma: no cover
     sys.exit(app.exec())
 
 
-"""
-Entry point guard, prevents running this file as a script
-This little if statement is a security checkpoint.
-It asks: "Are we running this file directly? If yes,
-fire up the main() sequence and start the application!
-"""
 if __name__ == "__main__":  # pragma: no cover
     main()
