@@ -3,13 +3,25 @@ from calculator.view import CalculatorView
 
 
 class CalculatorController:
-    """The controller for the calculator application.
+    """
+    The controller for the calculator application.
 
     This class handles the logic of the calculator, including
     appending values, clearing the expression, and evaluating it.
+
+    Args:
+        view: The view of the calculator.
+        model: The model of the calculator.
     """
 
     def __init__(self, view: CalculatorView, model: CalculatorModel) -> None:
+        """
+        Initializes the calculator controller.
+
+        Args:
+            view: The view of the calculator.
+            model: The model of the calculator.
+        """
         self.view = view
         self.model = model
         self._connect_signals()
@@ -26,7 +38,12 @@ class CalculatorController:
         self.view.history_list.itemClicked.connect(self._on_history_clicked)
 
     def _on_history_clicked(self, item) -> None:
-        """Handles clicks on history items by appending their equations."""
+        """
+        Handles clicks on history items by appending their equations.
+
+        Args:
+            item: The history item that was clicked.
+        """
         text = item.text()
         if "=" in text:
             equation = text.split("=")[0].strip()
@@ -34,7 +51,12 @@ class CalculatorController:
             self.view.update_display(new_expression)
 
     def _on_button_clicked(self, value: str) -> None:
-        """Passes the value to the model and updates the view."""
+        """
+        Passes the value to the model and updates the view.
+
+        Args:
+            value: The value to append to the expression.
+        """
         # too simple to need handlers
         if value == "C":
             new_expression = self.model.clear()
